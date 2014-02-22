@@ -14,13 +14,15 @@
 		text-align:  center;
 	}
 	
-	a {
+	a, .pointer {
 		color: white;
 		text-decoration: none;
+		cursor: pointer;
+		color:  rgb(150,150,150);
 	}
 	
-	a:hover {
-		text-decoration: underline;
+	a:hover, .pointer:hover {
+		color:  rgb(200,200,200);
 	}
 	
 	#options, #share {
@@ -46,7 +48,7 @@
 	}
 	
 	footer {
-		display: none;
+		/*display: none;*/
 		font-size: 12px;
 		text-align: center;
 		color: rgb(100,100,100);
@@ -102,8 +104,4 @@
 	label {
 		width: 150px;
 		cursor:  pointer;
-	}
-	
-	.pointer {
-		cursor: pointer;
 	}

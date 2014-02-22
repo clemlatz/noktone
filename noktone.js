@@ -1,5 +1,5 @@
 
-	var appVersion = '0.2.3';
+	var appVersion = '0.3';
 	
 	var base,
 		tempo,
@@ -17,7 +17,23 @@
 	var started = 0;
 	
 	var oscillator = new Array();
+	
+	// Version Check
+	window.addEventListener('load', function(e) {
 		
+	  window.applicationCache.addEventListener('updateready', function(e) {
+		if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
+		  // Browser downloaded a new app cache.
+		  if (confirm('A new version of this application is available. Load it?')) {
+			window.location.reload();
+		  }
+		} else {
+		  // Manifest didn't changed. Nothing new to server.
+		}
+	  }, false);
+		
+	}, false);
+	
 	// Scales
 	sc = new Array();
 	sc[0] = new Array(2,2,1,2,2,2,1); // Major
@@ -209,6 +225,7 @@
 	
 	function reset() {
 		$('td').removeClass('i p p1 p2');
+		updateUrl();
 	}
 	
 	function randomize() {
@@ -274,7 +291,7 @@
 		$('#shareUrlFB').attr('href','http://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(url));
 		$('#shareUrlTW').attr('href','http://twitter.com/home?status=noktone%20'+encodeURIComponent(url));
 		$('#shareUrlGP').attr('href','https://plus.google.com/share?url='+encodeURIComponent(url));
-		window.history.pushState(null, "noktone", '?'+$.param(params));
+		//window.history.pushState(null, "noktone", '?'+$.param(params));
 	}
 	
 	function loadEvents() {
@@ -282,6 +299,7 @@
 		$("td").mousedown( function() {
 			$(this).toggleClass("i");
 			updateUrl();
+			if (playing == 0) playNote($(this).data('note'));
 		});
 		
 		$('body').click( function() {
@@ -347,7 +365,6 @@
 		playNote(0);
 		
 	});
-	
 	
 	
 	
