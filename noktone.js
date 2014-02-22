@@ -1,5 +1,5 @@
 
-	var appVersion = '0.3';
+	var appVersion = '0.4';
 	
 	var base,
 		tempo,
@@ -134,7 +134,7 @@
 		
 		loadEvents();
 		
-		updateUrl();
+		//updateUrl();
 		
 	}
 	
@@ -154,7 +154,7 @@
 		
 		if (playing == 0) {
 			playing = 1;
-			updateUrl();
+			//updateUrl();
 		}
 		
 		if(cursor > board_width) {
@@ -198,7 +198,7 @@
 	
 	function pause() {
 		playing = 0;
-		updateUrl();
+		//updateUrl();
 		clearTimeout(playTO);
 	}
 	
@@ -214,7 +214,7 @@
 		
 		setNotes();
 		
-		updateUrl();
+		//updateUrl();
 		
 	}
 	
@@ -225,13 +225,12 @@
 	
 	function reset() {
 		$('td').removeClass('i p p1 p2');
-		updateUrl();
+		//updateUrl();
 	}
 	
 	function randomize() {
 		reset();
 		$('td').each( function(i) {
-			console.log(board_height);
 			if (Math.floor(Math.random() * (board_height+2)) == 1) {
 				$(this).addClass('i');
 			}
@@ -286,19 +285,44 @@
 			playing: playing,
 			freestyle: freestyle
 		}
+		
+		var current_url = $('#shareUrl').data('url');
+		
 		var url = 'http://labs.nokto.net/noktone/?'+$.param(params);
-		$('#shareUrl').val(url);
-		$('#shareUrlFB').attr('href','http://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(url));
-		$('#shareUrlTW').attr('href','http://twitter.com/home?status=noktone%20'+encodeURIComponent(url));
-		$('#shareUrlGP').attr('href','https://plus.google.com/share?url='+encodeURIComponent(url));
-		//window.history.pushState(null, "noktone", '?'+$.param(params));
+		
+		if (url != current_url) {
+			
+			$('#shareUrl').val(url).data('url',url);
+			$('#shareUrlFB').attr('href','http://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(url));
+			$('#shareUrlTW').attr('href','http://twitter.com/home?status=noktone%20'+encodeURIComponent(url));
+			$('#shareUrlGP').attr('href','https://plus.google.com/share?url='+encodeURIComponent(url));
+			
+			// Google URL Shortener
+			jQuery.urlShortener.settings.apiKey = 'AIzaSyBZCzr9jk57bVueJu7TpzgWtEG7qnWPTME';
+			jQuery.urlShortener({
+				longUrl: url,
+				success: function (shortUrl) {
+					$('#shareUrl').val(shortUrl);
+					$('#shareUrlFB').attr('href','http://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(shortUrl));
+					$('#shareUrlTW').attr('href','http://twitter.com/home?status=noktone%20'+encodeURIComponent(shortUrl));
+					$('#shareUrlGP').attr('href','https://plus.google.com/share?url='+encodeURIComponent(shortUrl));
+				},
+				error: function(err)
+				{
+					console.log(JSON.stringify(err));
+				}
+			});
+			
+			//window.history.pushState(null, "noktone", '?'+$.param(params));
+		}
+		
 	}
 	
 	function loadEvents() {
 		
 		$("td").mousedown( function() {
 			$(this).toggleClass("i");
-			updateUrl();
+			//updateUrl();
 			if (playing == 0) playNote($(this).data('note'));
 		});
 		
@@ -349,6 +373,7 @@
 		}).removeClass('e');
 		
 		$('#showShare.e').click( function() {
+			updateUrl();
 			$('#share').toggle();
 			$('#shareUrl').select();
 		}).removeClass('e');
@@ -364,6 +389,7 @@
 		
 		playNote(0);
 		
+		updateUrl();
 	});
 	
 	

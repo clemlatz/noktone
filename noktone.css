@@ -25,6 +25,10 @@
 		color:  rgb(200,200,200);
 	}
 	
+	#shareUrl {
+		width: 150px;
+	}
+	
 	#options, #share {
 		margin-top:  25px;
 		text-align:  center;

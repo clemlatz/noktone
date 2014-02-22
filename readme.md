@@ -14,11 +14,10 @@ Author : [Clément Bourgoin](http://nokto.net)
 [Demo](http://labs.nokto.net/noktone)
 [Source](https://github.com/iwazaru/noktone)
 
-## Roadmap
-
-* 0.4 : URL shortener
-
 ## Changelog
+
+### 0.4 (22/02/2014)
+* URL shortener
 
 ### 0.3 (22/02/2014)
 * Offline mode & update mechanism (HTML5 AppCache)
